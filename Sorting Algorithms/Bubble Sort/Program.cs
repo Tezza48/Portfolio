@@ -10,8 +10,8 @@ namespace BubbleSort
     {
         private static int[] randomBuffer;
         private static Random random = new Random();
-        private static int arrayLength = 100;
-        private static int maxNumber = 1000;
+        private static int arrayLength = 10000;
+        private static int maxNumber = 1000000;
 
         static void Main(string[] args)
         {

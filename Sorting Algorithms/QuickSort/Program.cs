@@ -8,8 +8,8 @@ namespace QuickSort
 {
     class Program
     {
-        public static int gArrayLength = 10;
-        public static int gMaxNumber = 100;
+        public static int gArrayLength = 10000;
+        public static int gMaxNumber = 100000000;
         public static Random gRand;
 
         static void Main(string[] args)
@@ -27,7 +27,7 @@ namespace QuickSort
 
             Console.WriteLine("Sorting");
 
-            QuickSort(ref numbers, 0, numbers.Length - 1);
+            QuickSort(ref numbers);
 
             Console.WriteLine("Sorted");
 
@@ -37,61 +37,66 @@ namespace QuickSort
             //PrintArray(x);
             //Swap(1, 4, ref x);
             //PrintArray(x);
-
+            Console.WriteLine("Done");
             Console.ReadKey();
         }
 
-        private static void QuickSort(ref int[] _numbers, int low, int high)
+        private static void QuickSort(ref int[] buffer)
         {
-            if (high - low < 2)
+            buffer = Partition(buffer);
+        }
+        private static int[] Partition(int[] buffer)
+        {
+            if (buffer.Length < 2)
             {
-                Console.WriteLine("Sorted partition\n");
-                return;
+                //Console.WriteLine("Sorted partition\n");
+                return buffer;
             }
 
-            Console.WriteLine("Partitioning");
+            //Console.WriteLine("Partitioning");
 
-            int lowSel = low;
-            int highSel = high;
+            int low = 0;
+            int high = buffer.Length - 1;
 
-            int pivot = _numbers[gRand.Next(lowSel, highSel)];
-            PrintArray(_numbers, lowSel, highSel, pivot);
+            int pivot = buffer[gRand.Next(low, high)];
+            //PrintArray(buffer, low, high, pivot);
 
             // pick random pivot
             // low selector = 0, high selector = length
             // if low val < pivot, ++
             // if high val > pivot, --
 
-            while (lowSel <= highSel)
+            while (low < high)
             {
-                while (_numbers[lowSel] < pivot)
+                while (buffer[low] < pivot)
                 {
-                    lowSel++;
-                    PrintArray(_numbers, lowSel, highSel, pivot);
+                    low++;
+                    //PrintArray(buffer, low, high, pivot);
                 }
-                while (_numbers[highSel] > pivot)
+                while (buffer[high] > pivot)
                 {
-                    highSel--;
-                    PrintArray(_numbers, lowSel, highSel, pivot);
-                }
-
-                if (lowSel <= highSel)
-                {
-                    Swap(lowSel, highSel, ref _numbers);
-                    lowSel++;
-                    highSel--;
+                    high--;
+                    //PrintArray(buffer, low, high, pivot);
                 }
 
-                PrintArray(_numbers, lowSel, highSel, pivot);
+                Swap(low, high, ref buffer);
+
+                //PrintArray(buffer, low, high, pivot);
             }
+            
+            int[] left = ElementsFromAToB(0, low+1, buffer);
+            int[] right = ElementsFromAToB(high+1, buffer.Length, buffer);
 
-            // At this point, both lowSel and highSel point to the pivot
-            // i'm using highSel to refer to the pivot but it dosnt matter which i use
-            Console.WriteLine("Left");
-            QuickSort(ref _numbers, low, highSel);
-            Console.WriteLine("Right");
-            QuickSort(ref _numbers, lowSel, high);
-                        
+            //Console.WriteLine("Left");
+            left = Partition(left);
+
+            //Console.WriteLine("Right");
+            right = Partition(right);
+
+            int[] output = left.Concat(right).ToArray();
+
+            return output;
+
         }
 
         private static void PrintArray(int[] numbers, int low = 0, int high = 0, int pivot = -1)
@@ -128,5 +133,16 @@ namespace QuickSort
             buffer[a] = holder;
 
         }
+
+        private static int[] ElementsFromAToB(int a, int b, int[] buffer)
+        {
+            int[] output = new int[b-a];
+            for (int i = 0; i < output.Length; i++)
+            {
+                output[i] = buffer[a + i];
+            }
+            return output;
+        }
+
     }
 }

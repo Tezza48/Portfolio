@@ -11,8 +11,8 @@ namespace MergeSort
         public static Random rand = new Random();
         static void Main(string[] args)
         {
-            int length = 100;
-            int maxNumberSize = 1000;
+            int length = 10000;
+            int maxNumberSize = 1000000;
             List<int> list = new List<int>();
 
             for (int i = 0; i < length; i++)
