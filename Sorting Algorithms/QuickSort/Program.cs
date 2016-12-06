@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace QuickSort
 {
+    // 234ms for 1,000,000 ints
     class Program
     {
-        public static int gArrayLength = 10000;
-        public static int gMaxNumber = 100000000;
+        public static int gArrayLength = 1000000;
+        public static int gMaxNumber = 1000000;
         public static Random gRand;
 
         static void Main(string[] args)
@@ -23,7 +24,7 @@ namespace QuickSort
             //numbers = new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2, 10};
 
             Console.WriteLine("Unsorted");
-            PrintArray(numbers);
+            //PrintArray(numbers, 0, numbers.Length, 0, numbers.Length);
 
             Console.WriteLine("Sorting");
 
@@ -31,78 +32,91 @@ namespace QuickSort
 
             Console.WriteLine("Sorted");
 
-            PrintArray(numbers);
+            PrintArray(numbers, 0, numbers.Length, 0, numbers.Length);
 
-            //int[] x = { 0, 1, 2, 3, 4, 5 };
-            //PrintArray(x);
-            //Swap(1, 4, ref x);
-            //PrintArray(x);
             Console.WriteLine("Done");
-            Console.ReadKey();
+
+            if (!CheckSorted(numbers))
+            {
+                Console.WriteLine("Not Sorted");
+            }
+            else
+            {
+                Console.WriteLine("Sorted");
+            }
+
+            Console.Read();
+        }
+
+        private static bool CheckSorted(int[] numbers)
+        {
+            for (int i = 0; i < numbers.Length - 1; i++)
+            {
+                if (i > i + 1) return false;
+            }
+            return true;
         }
 
         private static void QuickSort(ref int[] buffer)
         {
-            buffer = Partition(buffer);
+            Partition(ref buffer, 0, buffer.Length - 1);
         }
-        private static int[] Partition(int[] buffer)
+        private static void Partition(ref int[] buffer, int start, int end)
         {
-            if (buffer.Length < 2)
+            if (end - start < 2)
             {
-                //Console.WriteLine("Sorted partition\n");
-                return buffer;
+                return;
             }
 
-            //Console.WriteLine("Partitioning");
+            int low = start;
+            int high = end;
 
-            int low = 0;
-            int high = buffer.Length - 1;
+            int pivot = buffer[gRand.Next(start, end)];
 
-            int pivot = buffer[gRand.Next(low, high)];
-            //PrintArray(buffer, low, high, pivot);
-
-            // pick random pivot
-            // low selector = 0, high selector = length
-            // if low val < pivot, ++
-            // if high val > pivot, --
-
-            while (low < high)
+            //PrintArray(buffer, start, end, low, high, pivot);
+            
+            while (high >= low)
             {
                 while (buffer[low] < pivot)
                 {
                     low++;
-                    //PrintArray(buffer, low, high, pivot);
                 }
                 while (buffer[high] > pivot)
                 {
                     high--;
-                    //PrintArray(buffer, low, high, pivot);
                 }
 
-                Swap(low, high, ref buffer);
+                if (low <= high)
+                {
+                    Swap(low, high, ref buffer);
+                    //int holder = buffer[low];
+                    //buffer[low] = buffer[high];
+                    //buffer[high] = holder;
 
-                //PrintArray(buffer, low, high, pivot);
+                    low++;
+                    high--;
+                }
             }
-            
-            int[] left = ElementsFromAToB(0, low+1, buffer);
-            int[] right = ElementsFromAToB(high+1, buffer.Length, buffer);
 
             //Console.WriteLine("Left");
-            left = Partition(left);
+            Partition(ref buffer, start, low-1);
 
             //Console.WriteLine("Right");
-            right = Partition(right);
+            Partition(ref buffer, high+1, end);
 
-            int[] output = left.Concat(right).ToArray();
-
-            return output;
+            return;
 
         }
 
-        private static void PrintArray(int[] numbers, int low = 0, int high = 0, int pivot = -1)
+        private static void PrintArray(int[] numbers, int start = 0, int end = 0, int low = 0, int high = 0, int pivot = -1)
         {
             for(int i = 0; i < numbers.Length; i++)
             {
+                if (i < start || i > end)
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                else
+                    Console.ForegroundColor = ConsoleColor.White;
+
                 if (i == low || i == high)
                     Console.BackgroundColor = ConsoleColor.DarkGray;
                 else if (numbers[i] == pivot)
@@ -131,7 +145,6 @@ namespace QuickSort
             int holder = buffer[b];
             buffer[b] = buffer[a];
             buffer[a] = holder;
-
         }
 
         private static int[] ElementsFromAToB(int a, int b, int[] buffer)

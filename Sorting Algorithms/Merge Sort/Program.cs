@@ -8,10 +8,11 @@ namespace MergeSort
 {
     class Program
     {
+        // 19,417ms 100,000 ints
         public static Random rand = new Random();
         static void Main(string[] args)
         {
-            int length = 10000;
+            int length = 100000;
             int maxNumberSize = 1000000;
             List<int> list = new List<int>();
 

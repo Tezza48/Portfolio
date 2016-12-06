@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace SelectionSort
 {
+    // 13,166ms for 100,000 ints
     class Program
     {
         private static int[] randomBuffer;
         private static Random random = new Random();
-        private static int arrayLength = 10000;
+        private static int arrayLength = 100000;
         private static int maxNumber = 1000000;
 
         static void Main(string[] args)
@@ -19,7 +20,7 @@ namespace SelectionSort
 
             Console.WriteLine("Unsorted");
 
-            PrintArray(randomBuffer);
+            //PrintArray(randomBuffer);
 
             Console.WriteLine("\nSorted");
 

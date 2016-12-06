@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BubbleSort
 {
+    // 676ms for 10,000 ints
     class Program
     {
         private static int[] randomBuffer;
