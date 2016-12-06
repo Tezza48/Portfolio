@@ -147,15 +147,15 @@ namespace QuickSort
             buffer[a] = holder;
         }
 
-        private static int[] ElementsFromAToB(int a, int b, int[] buffer)
-        {
-            int[] output = new int[b-a];
-            for (int i = 0; i < output.Length; i++)
-            {
-                output[i] = buffer[a + i];
-            }
-            return output;
-        }
+        //private static int[] ElementsFromAToB(int a, int b, int[] buffer)
+        //{
+        //    int[] output = new int[b-a];
+        //    for (int i = 0; i < output.Length; i++)
+        //    {
+        //        output[i] = buffer[a + i];
+        //    }
+        //    return output;
+        //}
 
     }
 }
