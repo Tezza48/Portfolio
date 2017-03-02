@@ -22,7 +22,7 @@ namespace Sorting
             Stopwatch timer = new Stopwatch();
             Sorting sorting = new Sorting();
 
-            int arrayLength = 10000;
+            int arrayLength = 1000;
             int maxNumber = 10000000;
             int numIterations = 10;
 
@@ -94,7 +94,7 @@ namespace Sorting
                 for (int i = 0; i < numIterations; i++)
                 {
                     Console.Write("\t" + vertRule);
-                    foreach (dynamic key in times.Keys)
+                    foreach (string key in times.Keys)
                     {
                         //current key's time
                         Console.Write(times[key][i] + "\t");
